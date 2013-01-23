@@ -18,19 +18,4 @@ PLUGIN INSTALATION
 1. Download the plugin (tagged or current version). 
 2. Copy all files in respective directories in main Zikula directory.
 3. Optional: Configure plugin in Zikula Admin Panel: Extensions, System Plugins, Kcfinder, Configure plugin.
-4. For Scribite with CKEditor: Enter proper path to file manager in CKEditor plugin config page.
-
-USAGE
-
-1. All documentation to use kcfinder can find in vendor website: http://kcfinder.sunhater.com/.
-2. To work Zikula configuration and permissions, it is a must to pass session ID as GET parameter to KCFinder. Examples are with default location for KCFinder: utils/kcfinder directory.
-
-	FROM PHP CODE:
-	- use session_id php function to obtain session Id.
-	- add parameter s=xxxxxx to URL, where xxxxxx is session Id obtained with session_id php function:
-		example: URL='utils/kcfinder/browse.php?type=images&s=e9b534d2d33366f64a4aa05b5f58ff1e02a24957'
-	
-	FROM TEMPLATES:
-	- session id can be assigned to a template variable:
-	{callfunc x_function='session_id' x_assign='session_id'}
-    - add parameter s={$session_id} to URL
+4. For Scribite with CKEditor: Enter proper path "plugins/Kcfinder/vendor" to file manager in CKEditor plugin config page.

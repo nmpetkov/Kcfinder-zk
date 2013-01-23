@@ -50,9 +50,6 @@ class SystemPlugin_Kcfinder_Configuration extends Zikula_Controller_AbstractPlug
     {
         $this->checkCsrfToken();
 
-        $var1 = $this->request->getPost()->get('kcfinder_dir');
-        $this->plugin->setVar('kcfinder_dir', $var1);
-
         $var1 = $this->request->getPost()->get('upload_dir');
         $this->plugin->setVar('upload_dir', $var1);
 

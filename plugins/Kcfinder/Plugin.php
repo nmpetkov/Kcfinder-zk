@@ -100,7 +100,6 @@ class SystemPlugin_Kcfinder_Plugin extends Zikula_AbstractPlugin implements Ziku
     {
         $settings = array(
             'version' => $this->getMetaVersion(),
-            'kcfinder_dir' => 'utils/kcfinder',
             'upload_dir' => 'userdata/upload',
             'thumbs_dir' => '.thumbs',
             'listgroups_admin' => '2',  // default group Id for administrators

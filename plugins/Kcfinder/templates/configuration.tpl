@@ -11,9 +11,13 @@
             <legend>{gt text='General settings'}</legend>
 
             <div class="z-formrow">
-                <label for="kcfinder_dir">{gt text='Kcfinder install directory'}</label>
-                <input type="text" id="kcfinder_dir" name="kcfinder_dir" value="{$vars.kcfinder_dir|safetext}" />
-                <p class="z-formnote z-sub">{gt text='Default is utils/kcfinder.'}</p>
+                <label>{gt text='Default URL to call file browser'}</label>
+                <p class="z-formnote z-sub">{getbaseurl}plugins/Kcfinder/vendor/browse.php</p>
+            </div>
+
+            <div class="z-formrow">
+                <label>{gt text='Default URL to call file uploader'}</label>
+                <p class="z-formnote z-sub">{getbaseurl}plugins/Kcfinder/vendor/upload.php</p>
             </div>
 
             <div class="z-formrow">

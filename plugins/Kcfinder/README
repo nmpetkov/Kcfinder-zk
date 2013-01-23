@@ -18,7 +18,7 @@ PLUGIN INSTALATION
 1. Download the plugin (tagged or current version). 
 2. Copy all files in respective directories in main Zikula directory.
 3. Optional: Configure plugin in Zikula Admin Panel: Extensions, System Plugins, Kcfinder, Configure plugin.
-4. For Scribite with CKEditor: Enter proper path to file manager in CKEditor plugin config page.
+4. For Scribite with CKEditor: Enter proper path "plugins/Kcfinder/vendor" to file manager in CKEditor plugin config page.
 
 USAGE
 

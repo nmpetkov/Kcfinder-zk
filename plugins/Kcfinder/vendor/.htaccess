@@ -1,0 +1,6 @@
+# allow access if parent dir is disallowed
+# subdirs have proper .htaccess file
+<Files *>
+Order deny,allow
+Allow from all
+</Files>
