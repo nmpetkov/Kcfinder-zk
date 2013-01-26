@@ -20,7 +20,7 @@
 session_start();
 $UserIsAdmin = false;
 $UserCanUpload = false;
-$UserUploadDir = '/userdata/upload';
+$UserUploadDir = '/userdata/kcfinder';
 $thumbs_dir = '.thumbs';
 $kcfinder_theme = 'oxygen';
 $kcfinder_jpegQuality = 80;
@@ -29,41 +29,12 @@ $kcfinder_maxImageHeight = 1200;
 $kcfinder_thumbWidth = 100;
 $kcfinder_thumbHeight = 100;
 if (isset($_GET['s'])) {
-    // attempt to locate Zikula config.php
-    $configisfound = true;
-    $configfile = __DIR__.'/../../config/config.php';
-    if (file_exists($configfile)) {
-        require_once $configfile;
-    } else {
-        $configfile = __DIR__.'/../../../config/config.php';
-        if (file_exists($configfile)) {
-            require_once $configfile;
-        } else {
-            $configfile = __DIR__.'/../../../../config/config.php';
-            if (file_exists($configfile)) {
-                require_once $configfile;
-            } else {
-                $configisfound = false;
-            }
-        }
-    }
-    if ($configisfound) {
-        // get session info
-        $sDBase = $ZConfig['DBInfo']['databases']['default']['dbname'];
-        $sUser  = $ZConfig['DBInfo']['databases']['default']['user'];;
-        $sPassW = $ZConfig['DBInfo']['databases']['default']['password'];;
-        $sHost  = $ZConfig['DBInfo']['databases']['default']['host'];
-        $link = mysql_connect($sHost, $sUser, $sPassW) or cg_die("Could not connect");
-        mysql_select_db($sDBase) or cg_die("Could not select database");
-
-        // get Kcfinder system plugin config variables, if the plugin is installed
-        $sql = 'SELECT * FROM `module_vars` WHERE `modname`="systemplugin.kcfinder"';
-        $rSet = mysql_query($sql, $link) or cg_die("Bad query: ".$sql);
-        $vars = array();
-        while ($var = mysql_fetch_array($rSet)){
-            $vars[$var['name']] = unserialize($var['value']);
-        }
-        
+    // attempt to locate Zikula config.php and link to database
+    require_once __DIR__.'/ztools.php';
+    $link = Ztools::ConfigMysqlConnect();
+    if ($link) {
+        // Get Kcfinder system plugin config variables, if the plugin is installed
+        $vars = Ztools::ZikulaModuleVars('systemplugin.kcfinder');
         // setting upload directory and other settings
         if (isset($vars['upload_dir'])) {
             $UserUploadDir = '/'.$vars['upload_dir'];
@@ -91,24 +62,11 @@ if (isset($_GET['s'])) {
         }
 
         // get user session from Zikula session table, determine user Id
-        $sql = 'SELECT * FROM `session_info` WHERE `sessid`="'.$_GET['s'].'"';
-        $rSet = mysql_query($sql, $link) or cg_die("Bad query: ".$sql);
-        $r = mysql_fetch_object($rSet);
-        $userid = 0;
-        if ($r) {
-            $userid = $r->uid;
-        }
+        $userid = Ztools::ZikulaSessionUserid($_GET['s']);
         // get user groups
-        $arrusergroupids = array();
-        if ($userid > 0) {
-            $sql = 'SELECT * FROM `group_membership` WHERE `uid`='.$userid;
-            $rSet = mysql_query($sql, $link) or cg_die("Bad query: ".$sql);
-            while ($r = mysql_fetch_object($rSet)){
-                $arrusergroupids[] = $r->gid;
-            }
-        }
+        $arrusergroupids = Ztools::ZikulaUserGroupids($userid);
 
-        // list ot group and user list of IDs for permissions
+        // list from group and user list of IDs for permissions
         $useradminslist = '';
         if (isset($vars['listusers_admin'])) {
             $useradminslist = $vars['listusers_admin'];
