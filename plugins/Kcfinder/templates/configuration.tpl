@@ -33,6 +33,15 @@
             </div>
 
             <div class="z-formrow">
+                <label for="user_groups">{gt text='Available user groups'}</label>
+                <select name="user_groups" id="user_groups" size="{$groups.count}" multiple="multiple" disabled="disabled">
+                    {foreach item=group from=$groups}
+                        <option value="{$group.gid|safetext}">{$group.gid|safetext}  -  {$group.name|safetext}  -  {$group.description|safetext}</option>
+                    {/foreach}
+                </select>
+            </div>
+
+            <div class="z-formrow">
                 <label for="listgroups_admin">{gt text='Groups with admin (delete/rename) permissions'}</label>
                 <input type="text" id="listgroups_admin" name="listgroups_admin" value="{$vars.listgroups_admin|safetext}" />
                 <p class="z-formnote z-sub">{gt text='Comma separated list of user groups IDs.'}</p>

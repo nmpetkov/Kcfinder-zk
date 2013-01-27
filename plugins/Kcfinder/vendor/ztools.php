@@ -131,11 +131,31 @@ class Ztools
      */
     public static function MysqlQuery($sql)
     {
+        if (!self::$dblink) {
+            self::mysqlConnect();
+        }
         if (self::$dblink) {
             $rSet = mysql_query($sql, self::$dblink) or die("Bad query: ".$sql);
         }
 
         return $rSet;
+    }
+
+    /**
+     * Execute a MySQL query and return result (1 row only) as associative array.
+     *
+     * @param string  $sql
+     *
+     * @return array
+     */
+    public static function MysqlQueryFetchArray($sql)
+    {
+        $rSet = self::MysqlQuery($sql);
+        if ($rSet) {
+            return mysql_fetch_array($rSet, MYSQL_ASSOC);
+        }
+
+        return false;
     }
 
     /**
@@ -167,8 +187,7 @@ class Ztools
     public static function ZikulaSessionInfo($sessid)
     {
         $sql = 'SELECT * FROM `session_info` WHERE `sessid`="'.$sessid.'"';
-        $rSet = self::MysqlQuery($sql);
-        self::$sessiondata = mysql_fetch_array($rSet);
+        self::$sessiondata = self::MysqlQueryFetchArray($sql);
 
         return self::$sessiondata;
     }
@@ -212,6 +231,53 @@ class Ztools
         }
 
         return $usergroupids;
+    }
+
+    /**
+     * Zikula user admin status
+     *
+     * @param string  $userid
+     * @param string  $groupslist    Group, or list of groups to check
+     *
+     * @return boolean 
+     */
+    public static function ZikulaUserIsAdmin($userid, $groupadminslist = '2')
+    {
+        if ($userid > 0) {
+            if (empty($groupadminslist)) {
+                // 2 is default Zikula admin group Id
+                $groupadminslist = '2';
+            }
+            return self::ZikulaUserIsInGroup($userid, $groupadminslist);
+        }
+
+        return false;
+    }
+
+    /**
+     * Zikula user group belonging
+     *
+     * @param string  $userid
+     * @param string  $groupslist    Group, or list of groups to check
+     *
+     * @return boolean 
+     */
+    public static function ZikulaUserIsInGroup($userid, $groupslist = '')
+    {
+        if ($userid > 0 and $groupslist) {
+
+            // get groups for the given user
+            $usergroupids = self::ZikulaUserGroupids($userid);
+            // chech to see if at least one of user group ids is in the given list of group ids
+            $arrayids = explode(",", $groupslist);
+            foreach ($usergroupids as $usergroupid) {
+                if (in_array($usergroupid, $arrayids)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }

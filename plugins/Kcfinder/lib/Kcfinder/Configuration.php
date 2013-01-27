@@ -35,10 +35,16 @@ class SystemPlugin_Kcfinder_Configuration extends Zikula_Controller_AbstractPlug
     {
         $modVars = $this->plugin->getVars();
 
+        // get all groups
+        $groups = UserUtil::getGroups('', 'ORDER BY gid');
+        // count groups
+        $groups[count] = count($groups, 0);
+
         $this->getView()
             ->assign('header', ModUtil::func('Admin', 'admin', 'adminheader'))
             ->assign('footer', ModUtil::func('Admin', 'admin', 'adminfooter'))
-            ->assign('vars', $modVars);
+            ->assign('vars', $modVars)
+            ->assign('groups', $groups);
 
         return $this->getView()->fetch('configuration.tpl');
     }

@@ -63,8 +63,6 @@ if (isset($_GET['s'])) {
 
         // get user session from Zikula session table, determine user Id
         $userid = Ztools::ZikulaSessionUserid($_GET['s']);
-        // get user groups
-        $arrusergroupids = Ztools::ZikulaUserGroupids($userid);
 
         // list from group and user list of IDs for permissions
         $useradminslist = '';
@@ -85,33 +83,28 @@ if (isset($_GET['s'])) {
         }
 
         // check lists
-        
+        if (!$UserIsAdmin) {
         // check user id if are in list with user ids for admins
-        $arrayids = explode(",", $useradminslist);
-        if (in_array($userid, $arrayids)) {
-            $UserIsAdmin = true;
-        }
-
-        // chech user groups ids if are in list with group ids for admins
-        $arrayids = explode(",", $groupadminslist);
-        foreach ($arrusergroupids as $usergroupid) {
-            if (in_array($usergroupid, $arrayids)) {
+            $arrayids = explode(",", $useradminslist);
+            if (in_array($userid, $arrayids)) {
                 $UserIsAdmin = true;
             }
         }
-
-        // check user id if are in list with user ids for can upload
-        $arrayids = explode(",", $usercanuploadlist);
-        if (in_array($userid, $arrayids)) {
-            $UserCanUpload = true;
+        if (!$UserIsAdmin) {
+            // chech user groups ids if are in list with group ids for admins
+            $UserIsAdmin =  Ztools::ZikulaUserIsInGroup($userid, $groupadminslist);
         }
 
-        // chech user groups ids if are in list with group ids for can upload
-        $arrayids = explode(",", $groupcanuploadlist);
-        foreach ($arrusergroupids as $usergroupid) {
-            if (in_array($usergroupid, $arrayids)) {
+        if (!$UserCanUpload) {
+            // check user id if are in list with user ids for can upload
+            $arrayids = explode(",", $usercanuploadlist);
+            if (in_array($userid, $arrayids)) {
                 $UserCanUpload = true;
             }
+        }
+        if (!$UserCanUpload) {
+            // chech user groups ids if are in list with group ids for can upload
+            $UserCanUpload =  Ztools::ZikulaUserIsInGroup($userid, $groupcanuploadlist);
         }
     }
 } else {
