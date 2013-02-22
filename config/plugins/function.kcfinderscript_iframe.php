@@ -9,6 +9,8 @@
  *   {kcfinderscript_iframe images_dir='userdata\addressbook'}
  *      and call can be for example:
  *   <a href="#" onclick="openKCFinder(document.getElementById('address_img'));">{img modname='core' set='icons/extrasmall' src="search.gif"}</a>
+ *   and after <input> tag:
+ *   <div id="kcfinder_div"></div>
  *
  * @author       Nikolay Petkov
  * @param        array       $params      All attributes passed to this function from the template
