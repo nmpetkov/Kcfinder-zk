@@ -39,6 +39,10 @@ if (isset($_GET['s'])) {
         if (isset($vars['upload_dir'])) {
             $UserUploadDir = '/'.$vars['upload_dir'];
         }
+        if (isset($_GET['dir'])) {
+            // possibility to pass upload/browse directory
+            $UserUploadDir = '/'.$_GET['dir'];
+        }
         if (isset($vars['thumbs_dir'])) {
             $thumbs_dir = $vars['thumbs_dir'];
         }
