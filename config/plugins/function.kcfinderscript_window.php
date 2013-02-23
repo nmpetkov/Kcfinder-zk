@@ -3,12 +3,14 @@
  * Smarty function to insert Kcfinder manager
  *
  * Available parameters:
- *   images_dir:     Directory for images to manage
+ *   upload_dir:     Directory for images or other files to manage
  *
  * Example
- *   {kcfinderscript_window images_dir='userdata\addressbook'}
+ *   {kcfinderscript_window upload_dir='userdata\addressbook' type='images'}
  *      and call can be for example:
  *   <a href="#" onclick="openKCFinder(document.getElementById('address_img'));">{img modname='core' set='icons/extrasmall' src="search.gif"}</a>
+ *   Parameters:
+ *      type - predifined are files or flash or images
  *
  * @author       Nikolay Petkov
  * @param        array       $params      All attributes passed to this function from the template
@@ -18,7 +20,8 @@
 function smarty_function_kcfinderscript_window($params, &$smarty)
 {
     $assign = isset($params['assign']) ? $params['assign'] : null;
-    $images_dir = isset($params['images_dir']) ? $params['images_dir'] : null;
+    $upload_dir = isset($params['upload_dir']) ? $params['upload_dir'] : null;
+    $type = isset($params['type']) ? $params['type'] : 'images';
 
     $session_id = session_id();
     $result = "
@@ -30,7 +33,7 @@ function openKCFinder(field) {
             window.KCFinder = null;
         }
     };
-    window.open('plugins/Kcfinder/vendor/browse.php?type=images".($images_dir ? "&dir=".$images_dir : "")."&s=".$session_id."', 'kcfinder_textbox',
+    window.open('plugins/Kcfinder/vendor/browse.php?type=".$type.($upload_dir ? "&dir=".$upload_dir : "")."&s=".$session_id."', 'kcfinder_textbox',
         'status=0, toolbar=0, location=0, menubar=0, directories=0, ' +
         'resizable=1, scrollbars=0, width=800, height=600'
     );
