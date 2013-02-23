@@ -8,22 +8,34 @@
     <div>
         <input type="hidden" name="csrftoken" value="{insert name='csrftoken'}" />
         <fieldset>
+            <legend>{gt text='Manage files'}</legend>
+
+            <div class="z-formrow">
+                <label>{gt text='Manage images'}{img modname='core' set='icons/extrasmall' src="search.gif" alt=""}</label>
+                <a href="#" onclick="openKCFinder();">{gt text='Popup window'}</a>&nbsp;|&nbsp;<a href="#" onclick="iframeKCFinder();">{gt text='Iframe window'}</a><div id="kcfinder_div"></div>
+                {kcfinderscript_window upload_dir=$vars.upload_dir type='images'}{kcfinderscript_iframe upload_dir=$vars.upload_dir type='images'}
+            </div>
+
+            <div class="z-formrow">
+                <label>{gt text='Manage files'}{img modname='core' set='icons/extrasmall' src="search.gif" alt=""}</label>
+                <a href="#" onclick="openKCFinderFiles();">{gt text='Popup window'}</a>&nbsp;|&nbsp;<a href="#" onclick="iframeKCFinderFiles();">{gt text='Iframe window'}</a><div id="kcfinder_div"></div>
+                {kcfinderscript_window upload_dir=$vars.upload_dir type='files'}{kcfinderscript_iframe upload_dir=$vars.upload_dir type='files'}
+            </div>
+
+            <div class="z-formrow">
+                <label>{gt text='Default URL to call'}</label>
+                <p class="z-formnote z-sub">browser: {getbaseurl}plugins/Kcfinder/vendor/browse.php</p>
+                <p class="z-formnote z-sub">uploader: {getbaseurl}plugins/Kcfinder/vendor/upload.php</p>
+            </div>
+        </fieldset>
+
+        <fieldset>
             <legend>{gt text='General settings'}</legend>
-
-            <div class="z-formrow">
-                <label>{gt text='Default URL to call file browser'}</label>
-                <p class="z-formnote z-sub">{getbaseurl}plugins/Kcfinder/vendor/browse.php</p>
-            </div>
-
-            <div class="z-formrow">
-                <label>{gt text='Default URL to call file uploader'}</label>
-                <p class="z-formnote z-sub">{getbaseurl}plugins/Kcfinder/vendor/upload.php</p>
-            </div>
 
             <div class="z-formrow">
                 <label for="upload_dir">{gt text='Default upload directory'}</label>
                 <input type="text" id="upload_dir" name="upload_dir" value="{$vars.upload_dir|safetext}" />
-                <p class="z-formnote z-sub">{gt text='Default is userdata/upload.'}</p>
+                <p class="z-formnote z-sub">{gt text='Default is userdata/Kcfinder.'}</p>
             </div>
 
             <div class="z-formrow">

@@ -20,7 +20,7 @@
 session_start();
 $UserIsAdmin = false;
 $UserCanUpload = false;
-$UserUploadDir = '/userdata/kcfinder';
+$UserUploadDir = '/userdata/Kcfinder';
 $thumbs_dir = '.thumbs';
 $kcfinder_theme = 'oxygen';
 $kcfinder_jpegQuality = 80;

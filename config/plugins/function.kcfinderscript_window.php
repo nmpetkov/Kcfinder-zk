@@ -10,7 +10,9 @@
  *      and call can be for example:
  *   <a href="#" onclick="openKCFinder(document.getElementById('address_img'));">{img modname='core' set='icons/extrasmall' src="search.gif"}</a>
  *   Parameters:
- *      type - predifined are files or flash or images
+ *      type - predifined are images/flash/files , and javascript functions to call are:
+ *              openKCFinder/openKCFinderFlash/openKCFinderFiles
+ *              
  *
  * @author       Nikolay Petkov
  * @param        array       $params      All attributes passed to this function from the template
@@ -23,13 +25,18 @@ function smarty_function_kcfinderscript_window($params, &$smarty)
     $upload_dir = isset($params['upload_dir']) ? $params['upload_dir'] : null;
     $type = isset($params['type']) ? $params['type'] : 'images';
 
+    $jsFuncname = 'openKCFinder';
+    if ($type != 'images') {
+        $jsFuncname .= ucfirst($type);
+    }
+
     $session_id = session_id();
     $result = "
 <script type=\"text/javascript\">
-function openKCFinder(field) {
+function ".$jsFuncname."(field) {
     window.KCFinder = {
         callBack: function(url) {
-            field.value = url;
+            if (field) { field.value = url; }
             window.KCFinder = null;
         }
     };
