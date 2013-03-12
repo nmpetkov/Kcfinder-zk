@@ -37,7 +37,7 @@ USAGE
     
 EXAMPLE USAGE
 
-1. Module Scrivite, https://github.com/zikula-modules/Scribite.
+1. Module Scribite, https://github.com/zikula-modules/Scribite.
 2. Module AddressBook, https://github.com/nmpetkov/AddressBook.
 
 Search for KCFinder in all files.
