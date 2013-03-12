@@ -33,4 +33,11 @@ USAGE
 	FROM TEMPLATES:
 	- session id can be assigned to a template variable:
 	{callfunc x_function='session_id' x_assign='session_id'}
-    - add parameter s={$session_id} to URL
+    - add parameter s={$session_id} to URL.
+    
+EXAMPLE USAGE
+
+1. Module Scrivite, https://github.com/zikula-modules/Scribite.
+2. Module AddressBook, https://github.com/nmpetkov/AddressBook.
+
+Search for KCFinder in all files.
