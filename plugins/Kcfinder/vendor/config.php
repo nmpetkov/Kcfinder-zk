@@ -17,7 +17,10 @@
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
 // Zikula settings and permissions ==>
-session_start();
+if(session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 $UserIsAdmin = false;
 $UserCanUpload = false;
 $UserUploadDir = '/userdata/Kcfinder';
