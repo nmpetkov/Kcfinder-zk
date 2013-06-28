@@ -17,9 +17,8 @@
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
 // Zikula settings and permissions ==>
-if(session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
+// Avoid error if session has already been started.
+@session_start();
 
 $UserIsAdmin = false;
 $UserCanUpload = false;

@@ -35,7 +35,7 @@
             <div class="z-formrow">
                 <label for="upload_dir">{gt text='Default upload directory'}</label>
                 <input type="text" id="upload_dir" name="upload_dir" value="{$vars.upload_dir|safetext}" />
-                <p class="z-formnote z-sub">{gt text='Default is userdata/Kcfinder.'}</p>
+                <p class="z-formnote z-sub">{gt text='Default is userdata/Kcfinder.'} <strong>{gt text='Important: If you have installed Zikula into a subdirectory, make sure to insert the full path here!'}</strong></p>
             </div>
 
             <div class="z-formrow">
