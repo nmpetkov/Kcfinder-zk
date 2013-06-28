@@ -11,21 +11,21 @@
             <legend>{gt text='Manage files'}</legend>
 
             <div class="z-formrow">
-                <label>{gt text='Manage images'}{img modname='core' set='icons/extrasmall' src="search.gif" alt=""}</label>
+                <label>{gt text='Manage images'}{img modname='core' set='icons/extrasmall' src="search.png" alt=""}</label>
                 <a href="#" onclick="openKCFinder();">{gt text='Popup window'}</a>&nbsp;|&nbsp;<a href="#" onclick="iframeKCFinder();">{gt text='Iframe window'}</a><div id="kcfinder_div"></div>
                 {kcfinderscript_window upload_dir=$vars.upload_dir type='images'}{kcfinderscript_iframe upload_dir=$vars.upload_dir type='images'}
             </div>
 
             <div class="z-formrow">
-                <label>{gt text='Manage files'}{img modname='core' set='icons/extrasmall' src="search.gif" alt=""}</label>
+                <label>{gt text='Manage files'}{img modname='core' set='icons/extrasmall' src="search.png" alt=""}</label>
                 <a href="#" onclick="openKCFinderFiles();">{gt text='Popup window'}</a>&nbsp;|&nbsp;<a href="#" onclick="iframeKCFinderFiles();">{gt text='Iframe window'}</a><div id="kcfinder_div"></div>
                 {kcfinderscript_window upload_dir=$vars.upload_dir type='files'}{kcfinderscript_iframe upload_dir=$vars.upload_dir type='files'}
             </div>
 
             <div class="z-formrow">
                 <label>{gt text='Default URL to call'}</label>
-                <p class="z-formnote z-sub">browser: {getbaseurl}plugins/Kcfinder/vendor/browse.php</p>
-                <p class="z-formnote z-sub">uploader: {getbaseurl}plugins/Kcfinder/vendor/upload.php</p>
+                <p class="z-formnote z-sub">browser: {$baseurl}plugins/Kcfinder/vendor/browse.php</p>
+                <p class="z-formnote z-sub">uploader: {$baseurl}plugins/Kcfinder/vendor/upload.php</p>
             </div>
         </fieldset>
 
@@ -91,15 +91,19 @@
 
             <div class="z-formrow">
                 <label for="kcfinder_maxImageWidth">{gt text='Maximum image width and height'}</label>
-                <input type="text" id="kcfinder_maxImageWidth" name="kcfinder_maxImageWidth" value="{$vars.kcfinder_maxImageWidth|safetext}" />
-                <input type="text" id="kcfinder_maxImageHeight" name="kcfinder_maxImageHeight" value="{$vars.kcfinder_maxImageHeight|safetext}" />
+                <div>
+                    <input type="text" id="kcfinder_maxImageWidth" name="kcfinder_maxImageWidth" value="{$vars.kcfinder_maxImageWidth|safetext}" />
+                    <input type="text" id="kcfinder_maxImageHeight" name="kcfinder_maxImageHeight" value="{$vars.kcfinder_maxImageHeight|safetext}" />
+                </div>
                 <p class="z-formnote z-sub">{gt text='If uploaded image resolution exceeds these settings it will be automatically resized. If both are set to zero, images will not be resized. If one of these settings is set to zero, the image will be proportionally resized to fit the other setting.'}</p>
             </div>
 
             <div class="z-formrow">
                 <label for="kcfinder_thumbWidth">{gt text='Thumbnail width and height'}</label>
-                <input type="text" id="kcfinder_thumbWidth" name="kcfinder_thumbWidth" value="{$vars.kcfinder_thumbWidth|safetext}" />
-                <input type="text" id="kcfinder_thumbHeight" name="kcfinder_thumbHeight" value="{$vars.kcfinder_thumbHeight|safetext}" />
+                <div>
+                    <input type="text" id="kcfinder_thumbWidth" name="kcfinder_thumbWidth" value="{$vars.kcfinder_thumbWidth|safetext}" />
+                    <input type="text" id="kcfinder_thumbHeight" name="kcfinder_thumbHeight" value="{$vars.kcfinder_thumbHeight|safetext}" />
+                </div>
                 <p class="z-formnote z-sub">{gt text='Resolution for the generated thumbnail images.'}</p>
             </div>
         </fieldset>
