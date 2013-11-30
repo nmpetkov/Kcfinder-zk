@@ -141,7 +141,7 @@ class uploader {
             ini_set('session.cookie_domain', $_CONFIG['_sessionDomain']);
         switch ($this->cms) {
             case "drupal": break;
-            default: session_start(); break;
+            default: @session_start(); break; // Zikula changed line
         }
 
         // RELOAD DEFAULT CONFIGURATION
