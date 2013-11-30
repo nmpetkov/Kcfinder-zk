@@ -54,6 +54,19 @@ class SystemPlugin_Kcfinder_Plugin extends Zikula_AbstractPlugin implements Ziku
             new Zikula_ServiceManager_Reference($this->getServiceId())
         ));
         $this->serviceManager->registerService('systemplugin.kcfinder.manager', $definition, false);
+        
+        //Add plugins dir
+        $this->addHandlerDefinition('view.init', 'registerPlugins');
+    }
+    
+    /**
+     * Registers Kcfinder smarty plugins dir.
+     *
+     * @param Zikula_Event $event
+     */
+    public function registerPlugins(Zikula_Event $event)
+    {
+        $event->getSubject()->addPluginDir("{$this->baseDir}/templates/plugins");
     }
 
     /**
