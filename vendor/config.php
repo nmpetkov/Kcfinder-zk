@@ -4,27 +4,25 @@
   *
   *      @desc Base configuration file
   *   @package KCFinder
-  *   @version 2.52-dev
-  *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
-  * @copyright 2010, 2011 KCFinder Project
-  *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
-  *   @license http://www.opensource.org/licenses/lgpl-2.1.php LGPLv2
+  *   @version 3.10
+  *    @author Pavel Tzonkov <sunhater@sunhater.com>
+  * @copyright 2010-2014 KCFinder Project
+  *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
+  *   @license http://opensource.org/licenses/LGPL-3.0 LGPLv3
   *      @link http://kcfinder.sunhater.com
   */
 
-// IMPORTANT!!! Do not remove uncommented settings in this file even if
-// you are using session configuration.
-// See http://kcfinder.sunhater.com/install for setting descriptions
+/* IMPORTANT!!! Do not comment or remove uncommented settings in this file
+   even if you are using session configuration.
+   See http://kcfinder.sunhater.com/install for setting descriptions */
 
 // Zikula settings and permissions ==>
-// Avoid error if session has already been started.
-@session_start();
-
+session_start();
 $UserIsAdmin = false;
 $UserCanUpload = false;
 $UserUploadDir = '/userdata/Kcfinder';
 $thumbs_dir = '.thumbs';
-$kcfinder_theme = 'oxygen';
+$kcfinder_theme = 'default';
 $kcfinder_jpegQuality = 80;
 $kcfinder_maxImageWidth = 1200;
 $kcfinder_maxImageHeight = 1200;
@@ -136,6 +134,9 @@ $_SESSION['kcfinder_maxImageHeight'] = $kcfinder_maxImageHeight;
 $_SESSION['kcfinder_thumbWidth'] = $kcfinder_thumbWidth;
 $_SESSION['kcfinder_thumbHeight'] = $kcfinder_thumbHeight;
 
+if ($kcfinder_theme == 'oxygen') {
+    $kcfinder_theme = 'default';
+}
 // <== Zikula settings and permissions
 
 $_CONFIG = array(
@@ -144,9 +145,9 @@ $_CONFIG = array(
 // GENERAL SETTINGS
 
     'disabled' => false,
-    'theme' => $kcfinder_theme,
     'uploadURL' => $UserUploadDir,
     'uploadDir' => "",
+    'theme' => $kcfinder_theme,
 
     'types' => array(
 
@@ -206,7 +207,7 @@ $_CONFIG = array(
         )
     ),
 
-    'deniedExts' => "exe com msi bat php phps phtml php3 php4 cgi pl",
+    'deniedExts' => "exe com msi bat cgi pl php phps phtml php3 php4 php5 php6 py pyc pyo pcgi pcgi3 pcgi4 pcgi5 pchi6",
 
 
 // MISC SETTINGS
@@ -230,15 +231,19 @@ $_CONFIG = array(
 
 // THE FOLLOWING SETTINGS CANNOT BE OVERRIDED WITH SESSION SETTINGS
 
+    '_normalizeFilenames' => false,
     '_check4htaccess' => true,
     //'_tinyMCEPath' => "/tiny_mce",
 
-    '_sessionVar' => &$_SESSION['KCFINDER'],
+    '_sessionVar' => "KCFINDER",
     //'_sessionLifetime' => 30,
     //'_sessionDir' => "/full/directory/path",
-
     //'_sessionDomain' => ".mysite.com",
     //'_sessionPath' => "/my/path",
+
+    //'_cssMinCmd' => "java -jar /path/to/yuicompressor.jar --type css {file}",
+    //'_jsMinCmd' => "java -jar /path/to/yuicompressor.jar --type js {file}",
+
 );
 
 ?>
