@@ -119,7 +119,7 @@ class SystemPlugin_Kcfinder_Plugin extends Zikula_AbstractPlugin implements Ziku
             'listgroups_upload' => '1',  // default group Id for users
             'listusers_admin' => '',
             'listusers_upload' => '',
-            'kcfinder_theme' => 'oxygen',
+            'kcfinder_theme' => 'default',
             'kcfinder_jpegQuality' => 80,
             'kcfinder_maxImageWidth' => 1200,
             'kcfinder_maxImageHeight' => 1200,

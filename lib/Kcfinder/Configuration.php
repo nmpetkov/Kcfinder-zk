@@ -36,9 +36,13 @@ class SystemPlugin_Kcfinder_Configuration extends Zikula_Controller_AbstractPlug
         $modVars = $this->plugin->getVars();
 
         // get all groups
-        $groups = UserUtil::getGroups('', 'ORDER BY gid');
+        if (Zikula_Core::VERSION_NUM < '1.4.0') {
+            $groups = UserUtil::getGroups('', 'ORDER BY gid');
+        } else {
+            $groups = UserUtil::getGroups(array(), array('gid' => 'ASC'));
+        }
         // count groups
-        $groups[count] = count($groups, 0);
+        $groups['count'] = count($groups, 0);
 
         $this->getView()
             ->assign('header', ModUtil::func('Admin', 'admin', 'adminheader'))

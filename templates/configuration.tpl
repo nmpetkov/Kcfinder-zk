@@ -80,7 +80,7 @@
             <div class="z-formrow">
                 <label for="kcfinder_theme">{gt text='Visual theme of KCFinder'}</label>
                 <input type="text" id="kcfinder_theme" name="kcfinder_theme" value="{$vars.kcfinder_theme|safetext}" />
-                <p class="z-formnote z-sub">{gt text='Can be oxygen or dark.'}</p>
+                <p class="z-formnote z-sub">{gt text='Can be default or other user installed.'}</p>
             </div>
 
             <div class="z-formrow">
