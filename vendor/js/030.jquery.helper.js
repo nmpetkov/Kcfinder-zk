@@ -2,7 +2,7 @@
   *
   *      @desc Helper functions integrated in jQuery
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -150,6 +150,13 @@
                d.mozFullScreen || d.webkitIsFullScreen;
     };
 
+    $.clearSelection = function() {
+        if (document.selection)
+            document.selection.empty();
+        else if (window.getSelection)
+            window.getSelection().removeAllRanges();
+    };
+
     $.$ = {
 
         htmlValue: function(value) {
@@ -164,7 +171,9 @@
                 .replace(/\&/g, "&amp;")
                 .replace(/\</g, "&lt;")
                 .replace(/\>/g, "&gt;")
-                .replace(/\ /g, "&nbsp;");
+                .replace(/\ /g, "&nbsp;")
+                .replace(/\"/g, "&quot;")
+                .replace(/\'/g, "&#39;");
         },
 
         jsValue: function(value) {

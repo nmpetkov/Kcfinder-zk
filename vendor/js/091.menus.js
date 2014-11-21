@@ -2,7 +2,7 @@
   *
   *      @desc Context menus
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -56,7 +56,7 @@ _.menu = {
                     width: ""
                 }).fadeIn('fast');
             } else
-                dlg.fadeIn();
+                dlg.fadeIn('fast');
         } else
             ul.detach();
     },
@@ -223,7 +223,7 @@ _.menuFile = function(file, e) {
     } else {
         $('.file').removeClass('selected');
         file.addClass('selected');
-        $('#fileinfo').html(data.name + " (" + _.humanSize(data.size) + ", " + data.date + ")");
+        $('#fileinfo').html($.$.htmlData(data.name) + " (" + _.humanSize(data.size) + ", " + data.date + ")");
 
         if (_.opener.callBack || _.opener.callBackMultiple) {
 
@@ -286,7 +286,7 @@ _.menuFile = function(file, e) {
             _.menu.addItem("kcact:mv", _.label("Rename..."), function() {
                 if (!data.writable) return false;
                 _.fileNameDialog(
-                    e, {dir: _.dir, file: data.name},
+                    {dir: _.dir, file: data.name},
                     'newName', data.name, _.getURL("rename"), {
                         title: "New file name:",
                         errEmpty: "Please enter new file name.",
@@ -382,7 +382,7 @@ _.menuDir = function(dir, e) {
         _.menu.addItem("kcact:mkdir", _.label("New Subfolder..."), function(e) {
             if (!data.writable) return false;
             _.fileNameDialog(
-                e, {dir: data.path},
+                {dir: data.path},
                 "newDir", "", _.getURL("newDir"), {
                     title: "New folder name:",
                     errEmpty: "Please enter new folder name.",
@@ -405,7 +405,7 @@ _.menuDir = function(dir, e) {
         _.menu.addItem("kcact:mvdir", _.label("Rename..."), function(e) {
             if (!data.removable) return false;
             _.fileNameDialog(
-                e, {dir: data.path},
+                {dir: data.path},
                 "newName", data.name, _.getURL("renameDir"), {
                     title: "New folder name:",
                     errEmpty: "Please enter new folder name.",

@@ -2,7 +2,7 @@
   *
   *      @desc Toolbar functionality
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -128,9 +128,10 @@ _.uploadFile = function(form) {
     $('#loading').html(_.label("Uploading file...")).show();
     form.submit();
     $('#uploadResponse').load(function() {
-        var response = $(this).contents().find('body').html();
+        var response = $(this).contents().find('body').text();
         $('#loading').hide();
         response = response.split("\n");
+
         var selected = [], errors = [];
         $.each(response, function(i, row) {
             if (row.substr(0, 1) == "/")
@@ -138,8 +139,11 @@ _.uploadFile = function(form) {
             else
                 errors[errors.length] = row;
         });
-        if (errors.length)
-            _.alert(errors.join("\n"));
+        if (errors.length) {
+            errors = errors.join("\n");
+            if (errors.replace(/^\s+/g, "").replace(/\s+$/g, "").length)
+                _.alert(errors);
+        }
         if (!selected.length)
             selected = null;
         _.refresh(selected);
@@ -288,8 +292,10 @@ _.refresh = function(selected) {
         data: {dir: _.dir},
         async: false,
         success: function(data) {
-            if (_.check4errors(data))
+            if (_.check4errors(data)) {
+                $('#files > div').css({opacity: "", filter: ""});
                 return;
+            }
             _.dirWritable = data.dirWritable;
             _.files = data.files ? data.files : [];
             _.orderFiles(null, selected);

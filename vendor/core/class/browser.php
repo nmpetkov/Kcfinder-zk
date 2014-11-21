@@ -4,7 +4,7 @@
   *
   *      @desc Browser actions class
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -107,9 +107,12 @@ class browser extends uploader {
         }
         $this->session['dir'] = path::normalize($this->session['dir']);
 
+        // Render the browser
         if ($act == "browser") {
             header("X-UA-Compatible: chrome=1");
             header("Content-Type: text/html; charset={$this->charset}");
+
+        // Ajax requests
         } elseif (
             (substr($act, 0, 8) != "download") &&
             !in_array($act, array("thumb", "upload"))
@@ -220,7 +223,7 @@ class browser extends uploader {
         if (file_exists("$dir/$newDir"))
             $this->errorMsg("A file or folder with that name already exists.");
         if (!@mkdir("$dir/$newDir", $this->config['dirPerms']))
-            $this->errorMsg("Cannot create {dir} folder.", array('dir' => $newDir));
+            $this->errorMsg("Cannot create {dir} folder.", array('dir' => $this->htmlData($newDir)));
         return true;
     }
 
@@ -270,6 +273,8 @@ class browser extends uploader {
     }
 
     protected function act_upload() {
+        header("Content-Type: text/plain; charset={$this->charset}");
+
         if (!$this->config['access']['files']['upload'] ||
             !isset($_POST['dir'])
         )
@@ -310,7 +315,7 @@ class browser extends uploader {
         header("Cache-Control: private", false);
         header("Content-Type: application/octet-stream");
         header('Content-Disposition: attachment; filename="' . str_replace('"', "_", $_POST['file']) . '"');
-        header("Content-Transfer-Encoding:­ binary");
+        header("Content-Transfer-Encoding: binary");
         header("Content-Length: " . filesize($file));
         readfile($file);
         die;
@@ -398,16 +403,16 @@ class browser extends uploader {
             $path = "{$this->config['uploadDir']}/$file";
             if (!$this->checkFilePath($path)) continue;
             $base = basename($file);
-            $replace = array('file' => $base);
+            $replace = array('file' => $this->htmlData($base));
             $ext = file::getExtension($base);
             if (!file_exists($path))
                 $error[] = $this->label("The file '{file}' does not exist.", $replace);
             elseif (substr($base, 0, 1) == ".")
-                $error[] = "$base: " . $this->label("File name shouldn't begins with '.'");
+                $error[] = $this->htmlData($base) . ": " . $this->label("File name shouldn't begins with '.'");
             elseif (!$this->validateExtension($ext, $type))
-                $error[] = "$base: " . $this->label("Denied file extension.");
+                $error[] = $this->htmlData($base) . ": " . $this->label("Denied file extension.");
             elseif (file_exists("$dir/$base"))
-                $error[] = "$base: " . $this->label("A file or folder with that name already exists.");
+                $error[] = $this->htmlData($base) . ": " . $this->label("A file or folder with that name already exists.");
             elseif (!is_readable($path) || !is_file($path))
                 $error[] = $this->label("Cannot read '{file}'.", $replace);
             elseif (!@copy($path, "$dir/$base"))
@@ -450,16 +455,16 @@ class browser extends uploader {
             $path = "{$this->config['uploadDir']}/$file";
             if (!$this->checkFilePath($path)) continue;
             $base = basename($file);
-            $replace = array('file' => $base);
+            $replace = array('file' => $this->htmlData($base));
             $ext = file::getExtension($base);
             if (!file_exists($path))
                 $error[] = $this->label("The file '{file}' does not exist.", $replace);
             elseif (substr($base, 0, 1) == ".")
-                $error[] = "$base: " . $this->label("File name shouldn't begins with '.'");
+                $error[] = $this->htmlData($base) . ": " . $this->label("File name shouldn't begins with '.'");
             elseif (!$this->validateExtension($ext, $type))
-                $error[] = "$base: " . $this->label("Denied file extension.");
+                $error[] = $this->htmlData($base) . ": " . $this->label("Denied file extension.");
             elseif (file_exists("$dir/$base"))
-                $error[] = "$base: " . $this->label("A file or folder with that name already exists.");
+                $error[] = $this->htmlData($base) . ": " . $this->label("A file or folder with that name already exists.");
             elseif (!is_readable($path) || !is_file($path))
                 $error[] = $this->label("Cannot read '{file}'.", $replace);
             elseif (!file::isWritable($path) || !@rename($path, "$dir/$base"))
@@ -500,7 +505,7 @@ class browser extends uploader {
             $path = "{$this->config['uploadDir']}/$file";
             if (!$this->checkFilePath($path)) continue;
             $base = basename($file);
-            $replace = array('file' => $base);
+            $replace = array('file' => $this->htmlData($base));
             if (!is_file($path))
                 $error[] = $this->label("The file '{file}' does not exist.", $replace);
             elseif (!@unlink($path))
@@ -706,7 +711,7 @@ class browser extends uploader {
             !@copy($file['tmp_name'], $target)
         ) {
             @unlink($file['tmp_name']);
-            return "{$file['name']}: " . $this->label("Cannot move uploaded file to target folder.");
+            return $this->htmlData($file['name']) . ": " . $this->label("Cannot move uploaded file to target folder.");
         } elseif (function_exists('chmod'))
             chmod($target, $this->config['filePerms']);
 
@@ -907,6 +912,10 @@ class browser extends uploader {
             $message = $this->label($message, $data);
             die(json_encode(array('error' => $message)));
         }
+    }
+
+    protected function htmlData($str) {
+        return htmlentities($str, null, strtoupper($this->charset));
     }
 }
 

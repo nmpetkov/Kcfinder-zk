@@ -2,7 +2,7 @@
   *
   *      @desc Folder related functionality
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -27,6 +27,14 @@ _.initFolders = function() {
     }).rightClick(function(el, e) {
         _.menuDir($(el).parent(), e);
     });
+    if ($.mobile) {
+        $('div.folder > a > span.folder').on('taphold', function() {
+            _.menuDir($(this).parent(), {
+                pageX: $(this).offset().left + 1,
+                pageY: $(this).offset().top + $(this).outerHeight()
+            });
+        });
+    }
 };
 
 _.setTreeData = function(data, path) {

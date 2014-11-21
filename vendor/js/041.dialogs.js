@@ -2,7 +2,7 @@
   *
   *      @desc Dialog boxes functionality
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -116,7 +116,7 @@ _.dialog = function(title, content, options) {
     return dlg;
 };
 
-_.fileNameDialog = function(e, post, inputName, inputValue, url, labels, callBack, selectAll) {
+_.fileNameDialog = function(post, inputName, inputValue, url, labels, callBack, selectAll) {
     var html = '<form method="post" action="javascript:;"><input name="' + inputName + '" type="text" /></form>',
         submit = function() {
             var name = dlg.find('[type="text"]').get(0);

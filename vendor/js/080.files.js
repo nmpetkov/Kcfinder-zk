@@ -2,7 +2,7 @@
   *
   *      @desc File related functionality
   *   @package KCFinder
-  *   @version 3.10
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -23,9 +23,16 @@ _.initFiles = function() {
 
     }).rightClick(function(el, e) {
         _.menuFile($(el), e);
-
     }).dblclick(function() {
         _.returnFile($(this));
+    });
+
+    if ($.mobile)
+        $('.file').on('taphold', function() {
+        _.menuFile($(this), {
+            pageX: $(this).offset().left,
+            pageY: $(this).offset().top + $(this).outerHeight()
+        });
     });
 
     $.each(_.shows, function(i, val) {
@@ -37,58 +44,77 @@ _.initFiles = function() {
 _.showFiles = function(callBack, selected) {
     _.fadeFiles();
     setTimeout(function() {
-        var html = '';
+        var c = $('<div></div>');
+
         $.each(_.files, function(i, file) {
-            var icon, stamp = [];
-            $.each(file, function(key, val) {
-                stamp[stamp.length] = key + "|" + val;
-            });
-            stamp = encodeURIComponent(stamp.join("|"));
+            var f, icon,
+                stamp = file.size + "|" + file.mtime;
+
+            // List
             if ($.$.kuki.get('view') == "list") {
-                if (!i) html += '<table>';
+                if (!i) c.html('<table></table>');
+
                 icon = $.$.getFileExtension(file.name);
                 if (file.thumb)
                     icon = ".image";
                 else if (!icon.length || !file.smallIcon)
                     icon = ".";
                 icon = "themes/" + _.theme + "/img/files/small/" + icon + ".png";
-                html += '<tr class="file"><td class="name" style="background-image:url(' + icon + ')">' + $.$.htmlData(file.name) + '</td><td class="time">' + file.date + '</td><td class="size">' + _.humanSize(file.size) + '</td></tr>';
-                if (i == _.files.length - 1) html += '</table>';
+
+                f = $('<tr class="file"><td class="name thumb"></td><td class="time"></td><td class="size"></td></tr>');
+                f.appendTo(c.find('table'));
+
+            // Thumbnails
             } else {
                 if (file.thumb)
                     icon = _.getURL('thumb') + "&file=" + encodeURIComponent(file.name) + "&dir=" + encodeURIComponent(_.dir) + "&stamp=" + stamp;
                 else if (file.smallThumb) {
-                    icon = _.uploadURL + "/" + _.dir + "/" + file.name;
+                    icon = _.uploadURL + "/" + _.dir + "/" + encodeURIComponent(file.name);
                     icon = $.$.escapeDirs(icon).replace(/\'/g, "%27");
                 } else {
                     icon = file.bigIcon ? $.$.getFileExtension(file.name) : ".";
                     if (!icon.length) icon = ".";
                     icon = "themes/" + _.theme + "/img/files/big/" + icon + ".png";
                 }
-                html += '<div class="file"><div class="thumb" style="background-image:url(\'' + icon + '\')" ></div><div class="name">' + $.$.htmlData(file.name) + '</div><div class="time">' + file.date + '</div><div class="size">' + _.humanSize(file.size) + '</div></div>';
+                f = $('<div class="file"><div class="thumb"></div><div class="name"></div><div class="time"></div><div class="size"></div></div>');
+                f.appendTo(c);
             }
+
+            f.find('.thumb').css({backgroundImage: 'url("' + icon + '")'});
+            f.find('.name').html($.$.htmlData(file.name));
+            f.find('.time').html(file.date);
+            f.find('.size').html(_.humanSize(file.size));
+            f.data(file);
+
+            if ((file.name === selected) || $.$.inArray(file.name, selected))
+                f.addClass('selected');
         });
-        $('#files').html('<div>' + html + '<div>');
-        $.each(_.files, function(i, file) {
-            var item = $('#files .file').get(i);
-            $(item).data(file);
-            if ((file.name === selected) ||
-                $.$.inArray(file.name, selected)
-            )
-                $(item).addClass('selected');
-        });
-        $('#files > div').css({opacity:'', filter:''});
+
+        c.css({opacity:'', filter:''});
+        $('#files').html(c);
+
         if (callBack) callBack();
         _.initFiles();
     }, 200);
 };
 
 _.selectFile = function(file, e) {
-    if (e.ctrlKey || e.metaKey) {
-        if (file.hasClass('selected'))
-            file.removeClass('selected');
-        else
-            file.addClass('selected');
+
+    // Click with Ctrl, Meta or Shift key
+    if (e.ctrlKey || e.metaKey || e.shiftKey) {
+
+        // Click with Shift key
+        if (e.shiftKey && !file.hasClass('selected')) {
+            var f = file.prev();
+            while (f.get(0) && !f.hasClass('selected')) {
+                f.addClass('selected');
+                f = f.prev();
+            }
+        }
+
+        file.toggleClass('selected');
+
+        // Update statusbar
         var files = $('.file.selected').get(),
             size = 0, data;
         if (!files.length)
@@ -102,14 +128,16 @@ _.selectFile = function(file, e) {
                 $('#fileinfo').html(files.length + " " + _.label("selected files") + " (" + size + ")");
             else {
                 data = $(files[0]).data();
-                $('#fileinfo').html(data.name + " (" + _.humanSize(data.size) + ", " + data.date + ")");
+                $('#fileinfo').html($.$.htmlData(data.name) + " (" + _.humanSize(data.size) + ", " + data.date + ")");
             }
         }
+
+    // Normal click
     } else {
         data = file.data();
         $('.file').removeClass('selected');
         file.addClass('selected');
-        $('#fileinfo').html(data.name + " (" + _.humanSize(data.size) + ", " + data.date + ")");
+        $('#fileinfo').html($.$.htmlData(data.name) + " (" + _.humanSize(data.size) + ", " + data.date + ")");
     }
 };
 
