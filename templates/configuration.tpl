@@ -27,6 +27,11 @@
                 <p class="z-formnote z-sub">browser: {$baseurl}plugins/Kcfinder/vendor/browse.php</p>
                 <p class="z-formnote z-sub">uploader: {$baseurl}plugins/Kcfinder/vendor/upload.php</p>
             </div>
+            <div class="z-formrow">
+                <label>{gt text='Link to CKEditor to upload images'}</label>
+                <p class="z-formnote z-sub">plugins/Kcfinder/vendor</p>
+                <p class="z-formnote z-sub">{gt text='Enter above path in CKEditor configuration, Path to filemanager'}</p>
+            </div>
         </fieldset>
 
         <fieldset>
