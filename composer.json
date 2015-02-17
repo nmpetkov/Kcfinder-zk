@@ -1,0 +1,15 @@
+{
+    "name": "KCFinder for Zikula",
+    "description": "Plugin for Zikula. Configure permissions and other parameters for Kcfinder web file manager. Linkable to Scribite/CKEditor.",
+    "type": "zikula-module",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Nikolay Petkov",
+            "email": "office@cmstory.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    }
+}
