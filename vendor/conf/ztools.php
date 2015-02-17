@@ -101,7 +101,7 @@ class Ztools
                 echo 'Can not select database';
             }
         } else {
-            echo 'Can not connect to MySql server';
+            echo 'Can not connect to MySql server. Please check PHP version to find if supports mysql_* functions.';
         }
 
         return self::$dblink;
