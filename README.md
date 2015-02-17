@@ -1,4 +1,4 @@
-Kcfinder 1.0.0
+Kcfinder
 ===================
 
 Plugin for Zikula Application Framework.
