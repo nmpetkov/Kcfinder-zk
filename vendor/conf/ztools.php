@@ -95,13 +95,13 @@ class Ztools
     public static function mysqlConnect()
     {
         self::$dbname = self::$ZConfig['DBInfo']['databases']['default']['dbname'];
-        self::$dblink = mysql_connect(self::$ZConfig['DBInfo']['databases']['default']['host'], self::$ZConfig['DBInfo']['databases']['default']['user'], self::$ZConfig['DBInfo']['databases']['default']['password']);
+        self::$dblink = mysqli_connect(self::$ZConfig['DBInfo']['databases']['default']['host'], self::$ZConfig['DBInfo']['databases']['default']['user'], self::$ZConfig['DBInfo']['databases']['default']['password']);
         if (self::$dblink) {
-            if (!mysql_select_db(self::$dbname)) {
+            if (!mysqli_select_db(self::$dblink, self::$dbname)) {
                 echo 'Can not select database';
             }
         } else {
-            echo 'Can not connect to MySql server. Please check PHP version to find if supports mysql_* functions.';
+            echo 'Can not connect to MySql server. Please check PHP version to find if supports mysqli_* functions.';
         }
 
         return self::$dblink;
@@ -135,7 +135,7 @@ class Ztools
             self::mysqlConnect();
         }
         if (self::$dblink) {
-            $rSet = mysql_query($sql, self::$dblink) or die("Bad query: ".$sql);
+            $rSet = mysqli_query(self::$dblink, $sql) or die("Bad query: ".$sql);
         }
 
         return $rSet;
@@ -152,7 +152,7 @@ class Ztools
     {
         $rSet = self::MysqlQuery($sql);
         if ($rSet) {
-            return mysql_fetch_array($rSet, MYSQL_ASSOC);
+            return mysqli_fetch_array($rSet, MYSQLI_ASSOC);
         }
 
         return false;
@@ -170,7 +170,7 @@ class Ztools
         $sql = 'SELECT * FROM `module_vars` WHERE `modname`="'.$modname.'"';
         $rSet = self::MysqlQuery($sql);
         $vars = array();
-        while ($var = mysql_fetch_array($rSet)){
+        while ($var = mysqli_fetch_array($rSet)){
             $vars[$var['name']] = unserialize($var['value']);
         }
 
@@ -225,7 +225,7 @@ class Ztools
         if ($userid > 0) {
             $sql = 'SELECT * FROM `group_membership` WHERE `uid`='.$userid;
             $rSet = self::MysqlQuery($sql);
-            while ($r = mysql_fetch_object($rSet)){
+            while ($r = mysqli_fetch_object($rSet)){
                 $usergroupids[] = $r->gid;
             }
         }
