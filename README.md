@@ -16,7 +16,7 @@ Visit: http://kcfinder.sunhater.com/demos/ckeditor. This is KCFinder integration
 PLUGIN INSTALATION
 
 1. Download the plugin (tagged or current version). 
-2. Copy all files in respective directories in main Zikula directory.
+2. Copy all files in respective directories in main Zikula directory (files and folder from 'Kcfinder-zk' into 'plugins/Kcfinder').
 3. Optional: Configure plugin in Zikula Admin Panel: Extensions, System Plugins, Kcfinder, Configure plugin.
 4. For Scribite with CKEditor: Enter proper path "plugins/Kcfinder/vendor" to file manager in CKEditor plugin config page.
 
