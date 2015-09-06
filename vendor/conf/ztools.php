@@ -5,7 +5,7 @@
  * @copyright Nikolay Petkov
  * @license GNU/GPL
  */
- 
+
 /**
  * Ztools
  */
@@ -38,6 +38,21 @@ class Ztools
      * @var array
      */
     public static $sessiondata;
+    
+    /**
+     * Array with data from Zikula users table.
+     *
+     * @var array
+     */
+    public static $userdata;
+    public static $userattrib;
+
+    /**
+     * Module vars.
+     *
+     * @var array
+     */
+    public static $modvars = array();
 
     /**
      * Return location and file name for Zikula config.php.
@@ -51,12 +66,18 @@ class Ztools
         $configfile = '';
         $updirprefix = '';
         for ($i = 1; $i <= $maxdeeplevel; $i++) {
-            $configfile = __DIR__.$updirprefix.'/config/config.php';
+            $configfile = __DIR__.$updirprefix.'/config/personal_config.php';
             if (file_exists($configfile)) {
                 $configfile = realpath($configfile);
                 break;
+            } else {
+                $configfile = __DIR__.$updirprefix.'/config/config.php';
+                if (file_exists($configfile)) {
+                    $configfile = realpath($configfile);
+                    break;
+                }
             }
-            $updirprefix .= '/..';;
+            $updirprefix .= '/..';
         }
 
         return $configfile;
@@ -127,7 +148,7 @@ class Ztools
      *
      * @param string  $sql
      *
-     * @return MySQL resource or boolean (mysql_query)
+     * @return MySQL resource or boolean
      */
     public static function MysqlQuery($sql)
     {
@@ -163,7 +184,7 @@ class Ztools
      *
      * @param string  $modname
      *
-     * @return array with Zikula session variables
+     * @return array with Zikula module variables
      */
     public static function ZikulaModuleVars($modname)
     {
@@ -231,6 +252,25 @@ class Ztools
         }
 
         return $usergroupids;
+    }
+
+    /**
+     * Zikula groups returned as array
+     *
+     * @param string  $userid
+     *
+     * @return array Array with groups data
+     */
+    public static function ZikulaUserGroups()
+    {
+        $sql = 'SELECT * FROM `groups` ORDER BY `gid` ASC';
+        $rSet = self::MysqlQuery($sql);
+        $groups = array();
+        while ($groupdata = mysqli_fetch_array($rSet)){
+            $groups[] = $groupdata;
+        }
+
+        return $groups;
     }
 
     /**
