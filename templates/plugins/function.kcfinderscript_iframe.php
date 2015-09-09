@@ -65,7 +65,7 @@ function ".$jsFuncname."(field) {
             div.innerHTML = '';
         }
     };
-    div.innerHTML = '<iframe name=\"kcfinder_iframe\" src=\"plugins/Kcfinder/vendor/browse.php?type=".$type.($upload_dir ? "&dir=".$upload_dir : "")."&s=".$session_id."\" ' +
+    div.innerHTML = '<iframe name=\"kcfinder_iframe\" src=\"/plugins/Kcfinder/vendor/browse.php?type=".$type.($upload_dir ? "&dir=".$upload_dir : "")."&s=".$session_id."\" ' +
         'frameborder=\"0\" width=\"100%\" height=\"100%\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" />';
     div.style.display = 'block';
 }
