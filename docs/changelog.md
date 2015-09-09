@@ -1,8 +1,9 @@
 #Kcfinder-zk CHANGELOG
 ----------------------
 
-##Version 1.0.2 (not released yet)
+##Version 1.0.2 2015-09-09
 - Updated ztools for mysql_ methods not supported in PHP5.5 (https://github.com/nmpetkov/Kcfinder-zk/pull/7)
+- Corrections to work in released Zikula 1.4.0
 
 ##Version 1.0.1 2015-02-17
 - Add instruction to link CKEditor in plugin config page
