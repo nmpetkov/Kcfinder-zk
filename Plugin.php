@@ -23,7 +23,7 @@ class SystemPlugin_Kcfinder_Plugin extends Zikula_AbstractPlugin implements Ziku
         return array(
             'displayname' => $this->__('Kcfinder'),
             'description' => $this->__('Provides Kcfinder web file manager'),
-            'version'     => '1.0.0'
+            'version'     => '1.0.2'
         );
     }
 
